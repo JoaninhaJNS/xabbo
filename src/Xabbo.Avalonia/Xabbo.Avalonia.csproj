@@ -18,9 +18,26 @@
     <PathMap>$(AppOutputBase)=Xabbo.Avalonia\</PathMap>
   </PropertyGroup>
 
-  <ItemGroup Label="GitVersion">
-    <PackageReference Include="GitVersion.MsBuild" Version="6.0.2" PrivateAssets="all" />
-  </ItemGroup>
+  <PropertyGroup Label="Version">
+    <XabboBaseVersion>1.1.6</XabboBaseVersion>
+    <_BuildCounterFile>$(MSBuildThisFileDirectory)..\..\.buildcounter</_BuildCounterFile>
+  </PropertyGroup>
+
+  <Target Name="BumpBuildCounter" BeforeTargets="GetAssemblyVersion;GenerateAssemblyInfo;CoreCompile">
+    <PropertyGroup>
+      <_PrevBuildCounter Condition="Exists('$(_BuildCounterFile)')">$([System.IO.File]::ReadAllText('$(_BuildCounterFile)').Trim())</_PrevBuildCounter>
+      <_PrevBuildCounter Condition="'$(_PrevBuildCounter)' == ''">0</_PrevBuildCounter>
+      <_NextBuildCounter>$([MSBuild]::Add($(_PrevBuildCounter), 1))</_NextBuildCounter>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(_BuildCounterFile)" Lines="$(_NextBuildCounter)" Overwrite="true" />
+    <PropertyGroup>
+      <Version>$(XabboBaseVersion).$(_NextBuildCounter)</Version>
+      <AssemblyVersion>$(XabboBaseVersion).$(_NextBuildCounter)</AssemblyVersion>
+      <FileVersion>$(XabboBaseVersion).$(_NextBuildCounter)</FileVersion>
+      <InformationalVersion>$(XabboBaseVersion).$(_NextBuildCounter)</InformationalVersion>
+    </PropertyGroup>
+    <Message Text="Xabbo.Avalonia version: $(Version)" Importance="high" />
+  </Target>
 
   <ItemGroup Label="Avalonia">
     <PackageReference Include="Avalonia" Version="11.1.3" />

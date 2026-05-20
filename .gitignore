@@ -7,6 +7,7 @@ bin/
 out/
 logs/
 messages.ini
+.buildcounter
 
 # User-specific files
 *.rsuser
