@@ -97,7 +97,11 @@ public partial class ChatComponent : Component
             }
         }
 
-        if (Settings.Chat.MuteWired && e.BubbleStyle == 34) e.Block();
+        if (Settings.Chat.MuteWired)
+        {
+            if (e.BubbleStyle == 34 || (e.BubbleStyle >= 200 && e.BubbleStyle <= 202) || (e.BubbleStyle >= 210 && e.BubbleStyle <= 212) || (e.BubbleStyle >= 220 && e.BubbleStyle <= 229) || (e.BubbleStyle >= 250 && e.BubbleStyle <= 252))
+                e.Block();
+        }
     }
 
     [InterceptOut(nameof(Out.Chat))]
