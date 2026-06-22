@@ -51,22 +51,16 @@ public sealed class HabboApi : IHabboApi
 
     public Task<Web.Dto.MarketplaceResponse> FetchMarketplaceItemStats(Hotel hotel, ItemType type, string identifier, CancellationToken cancellationToken = default)
     {
-        string? typeString = type switch
+        var items = new List<Web.Dto.MarketplaceStatsRequestItem> { new() { Item = identifier } };
+
+        var request = type switch
         {
-            ItemType.Floor => "roomItems",
-            ItemType.Wall => "wallItems",
+            ItemType.Floor => new Web.Dto.MarketplaceStatsRequest { RoomItems = items },
+            ItemType.Wall => new Web.Dto.MarketplaceStatsRequest { WallItems = items },
             _ => throw new Exception($"Invalid item type: {type}.")
         };
 
-        var payload = new Dictionary<string, object>
-        {
-            [typeString] = new[]
-            {
-                new { item = identifier }
-            }
-        };
-
-        var json = JsonSerializer.Serialize(payload, JsonWebContext.Default.Options);
+        var json = JsonSerializer.Serialize(request, JsonWebContext.Default.MarketplaceStatsRequest);
 
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 

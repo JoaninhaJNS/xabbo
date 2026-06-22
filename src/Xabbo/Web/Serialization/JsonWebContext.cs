@@ -8,6 +8,7 @@ namespace Xabbo.Web.Serialization;
 )]
 [JsonSerializable(typeof(Dto.MarketplaceItemStats))]
 [JsonSerializable(typeof(Dto.MarketplaceResponse))]
+[JsonSerializable(typeof(Dto.MarketplaceStatsRequest))]
 [JsonSerializable(typeof(PhotoInfo))]
 [JsonSerializable(typeof(Dto.PhotoData))]
 public partial class JsonWebContext : JsonSerializerContext;
