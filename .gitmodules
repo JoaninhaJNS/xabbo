@@ -7,7 +7,7 @@
 	url = https://github.com/xabbo/gearth
 [submodule "Xabbo.Core"]
 	path = lib/core
-	url = https://github.com/QDaves/core-xabbo
+	url = https://github.com/JoaninhaJNS/core-xabbo
 	branch = core-xabbo
 [submodule "Xabbo.Messages"]
 	path = lib/messages
